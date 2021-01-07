@@ -27,8 +27,12 @@ app.get("/comics/:id", (req, res) => {
 })
 
 app.post("/comics", (req, res) => {
-    comics.push(req.body);
-    res.status(201).send("Ok! Created new comics")
+    db.query(`INSERT INTO comic SET ?`, req.body, (errSql, resSql) => {
+        if (errSql) {
+            return res.status(500).send("Nope, sorry, I iz broken !")
+        }
+        res.status(201).send("Ok! Created new comics")
+    })
 })
 
 app.listen(5050, () => {
