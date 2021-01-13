@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 function App() {
   const [form, setForm] = useState({
@@ -14,8 +15,14 @@ function App() {
     console.log("got field " + e.target.name + ", value " + e.target.value);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios.post("http://localhost:5050/comics", form).then(({ data }) => {
+      console.log("Comic was created")
+    }).catch((err) => {
+      console.warn("Something went poorly")
+    })
     console.log(form);
   };
 
@@ -23,7 +30,7 @@ function App() {
     <>
       <form onSubmit={handleSubmit}>
         <label>
-          Author:{" "}
+          Author:
           <input
             name="author"
             type="text"
@@ -33,7 +40,7 @@ function App() {
         </label>
         <br />
         <label>
-          Title:{" "}
+          Title:
           <input
             name="title"
             type="text"
@@ -43,7 +50,7 @@ function App() {
         </label>
         <br />
         <label>
-          Illustrator:{" "}
+          Illustrator:
           <input
             name="illustrator"
             type="text"
@@ -53,7 +60,7 @@ function App() {
         </label>
         <br />
         <label>
-          Année:{" "}
+          Année:
           <input
             name="year_start"
             type="text"
@@ -63,12 +70,12 @@ function App() {
         </label>
         <br />
         <label>
-          Résumé:{" "}
+          Résumé:
           <textarea name="resume" onChange={handleChange} value={form.resume} />
         </label>
         <br />
         <label>
-          Image:{" "}
+          Image:
           <input
             name="picture"
             type="text"
@@ -77,7 +84,7 @@ function App() {
           />
         </label>
         <br />
-        <input type="Submit" value="Nouveau comic!" />
+        <input type="Submit" readOnly value="Nouveau comic!" />
       </form>
     </>
   );

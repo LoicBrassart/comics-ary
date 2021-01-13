@@ -1,7 +1,10 @@
 const express = require("express");
-const app = express();
+const cors = require('cors')
 const { db } = require("./conf");
+
+const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.get("/comics", (req, res) => {
   db.query(
